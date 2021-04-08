@@ -48,6 +48,10 @@ namespace cars.Services
             original.Model = updatedCar.Model != null ? updatedCar.Model : original.Model;
             original.Description = updatedCar.Description != null ? updatedCar.Description : original.Description;
             original.Price = updatedCar.Price != null ? updatedCar.Price : original.Price;
+            original.Year = updatedCar.Year > 0 ? updatedCar.Year : original.Year;
+            original.Color = updatedCar.Color != null ? updatedCar.Color : original.Color;
+            original.ImgUrl = updatedCar.ImgUrl != null ? updatedCar.ImgUrl : original.ImgUrl;
+
 
             return _repo.Edit(original);
         }

@@ -7,14 +7,16 @@
 --     model VARCHAR(255) NOT NULL UNIQUE,
 --     description VARCHAR(255),
 --     price DECIMAL(6, 2) NOT NULL,
+--     year INT NOT NULL,
+
 
 --     PRIMARY KEY (id)
 -- );
 
 -- INSERT INTO cars 
--- (make, model, description, price)
+-- (make, model, description, price, year)
 -- VALUES
--- ("Chevy", "Camaro", "average car", 40000)
+-- ("Chevy", "Camaro", "average car", 40000, 2003)
 
 -- -- Get ALL of a Collection
 -- SELECT * FROM cars;

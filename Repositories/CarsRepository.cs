@@ -55,7 +55,9 @@ namespace cars.Repositories
                 make = @Make,
                 model = @Model,
                 description = @Description,
-                price = @Price
+                price = @Price,
+                // color = @Color,
+                // imgUrl = @ImgUrl
             WHERE id = @Id;
             SELECT * FROM cars WHERE id = @Id;";
             return _db.QueryFirstOrDefault<Car>(sql, carToEdit);

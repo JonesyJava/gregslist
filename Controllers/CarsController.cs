@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using gregslist.db;
 using gregslist.Models;
 using Microsoft.AspNetCore.Mvc;
+using cars.Services;
 
 namespace gregslist.Controllers
 {
@@ -9,12 +9,20 @@ namespace gregslist.Controllers
     [Route("api/[controller]")]
     public class CarsController : ControllerBase
     {
+        private readonly CarsService _service;
+
+        public CarsController(CarsService service)
+        {
+            _service = service;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Car>> Get()
         {
             try
             {
-                return Ok(FakeDB.Cars);
+                // return Ok(FakeDB.Cars);
+                return Ok(_service.Get());
             }
             catch (System.Exception err)
             {
@@ -27,8 +35,9 @@ namespace gregslist.Controllers
         {
             try
             {
-                FakeDB.Cars.Add(newCar);
-                return Ok(newCar);
+                return Ok(_service.Create(newCar));
+                // // FakeDB.Cars.Add(newCar);
+                // return Ok(newCar);
             }
             catch (System.Exception err)
             {
@@ -36,17 +45,18 @@ namespace gregslist.Controllers
             }
         }
 
-        [HttpGet("{carId}")]
-        public ActionResult<Car> GetCarById(string carId)
+        [HttpGet("{carId}")] // GET by ID
+        public ActionResult<Car> GetCarById(int carId)
         {
             try
             {
-                Car carFound = FakeDB.Cars.Find(c => c.Id == carId);
-                if (carFound == null)
-                {
-                    throw new System.Exception("Car does not exist");
-                }
-                return Ok(carFound);
+                return Ok(_service.Get(carId));
+                // // Car carFound = FakeDB.Cars.Find(c => c.Id == carId);
+                // if (carFound == null)
+                // {
+                //     throw new System.Exception("Car does not exist");
+                // }
+                // return Ok(carFound);
             }
             catch (System.Exception err)
             {
@@ -55,19 +65,20 @@ namespace gregslist.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<string> DeleteCar(string id)
+        public ActionResult<Car> DeleteCar(int carId)
         {
             try
             {
-                Car carToRemove = FakeDB.Cars.Find(c => c.Id == id);
-                if (FakeDB.Cars.Remove(carToRemove))
-                {
-                    return Ok("Car Deleted");
-                }
-                else
-                {
-                    throw new System.Exception("This car does not exist");
-                }
+                return Ok(_service.Delete(carId));
+                // Car carToRemove = FakeDB.Cars.Find(c => c.Id == id);
+                // if (FakeDB.Cars.Remove(carToRemove))
+                // {
+                //     return Ok("Car Deleted");
+                // }
+                // else
+                // {
+                //     throw new System.Exception("This car does not exist");
+                // }
             }
             catch (System.Exception err)
             {
@@ -76,22 +87,24 @@ namespace gregslist.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Car> EditCar(string id, Car updatedCar)
+        public ActionResult<Car> Edit(int carId, Car updatedCar)
         {
             try
             {
-                Car carFound = FakeDB.Cars.Find(c => c.Id == id);
-                if (carFound == null)
-                {
-                    throw new System.Exception("Car does not exist");
-                }
-                carFound.Make = updatedCar.Make;
-                carFound.Model = updatedCar.Model;
-                carFound.Year = updatedCar.Year;
-                carFound.Color = updatedCar.Color;
-                carFound.Description = updatedCar.Description;
-                carFound.ImgUrl = updatedCar.ImgUrl;
-                return Ok(carFound);
+                updatedCar.Id = carId;
+                return Ok(_service.Edit(updatedCar));
+                // Car carFound = FakeDB.Cars.Find(c => c.Id == id);
+                // if (carFound == null)
+                // {
+                //     throw new System.Exception("Car does not exist");
+                // }
+                // carFound.Make = updatedCar.Make;
+                // carFound.Model = updatedCar.Model;
+                // carFound.Year = updatedCar.Year;
+                // carFound.Color = updatedCar.Color;
+                // carFound.Description = updatedCar.Description;
+                // carFound.ImgUrl = updatedCar.ImgUrl;
+                // return Ok(carFound);
             }
             catch (System.Exception err)
             {

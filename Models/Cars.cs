@@ -29,7 +29,7 @@ namespace gregslist.Models
 
         public int Year { get; set; }
 
-        public int Price { get; set; }
+        public decimal? Price { get; set; }
 
         public string Description { get; set; }
 
@@ -37,6 +37,6 @@ namespace gregslist.Models
 
         public string ImgUrl { get; set; }
 
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }
     }
 }
